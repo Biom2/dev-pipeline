@@ -1,0 +1,81 @@
+name: Daily refresh & deploy
+
+on:
+  schedule:
+    - cron: "0 2 * * *"   # 02:00 UTC = 06:00 Abu Dhabi
+  workflow_dispatch:       # "Run workflow" button in the Actions tab
+  push:
+    branches: [main]
+    paths: ["site/**", "scripts/**", "config/**", ".github/workflows/**"]
+
+permissions:
+  contents: write   # commit new snapshots
+  pages: write
+  id-token: write
+
+concurrency:
+  group: refresh-and-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      fetch: ${{ steps.fetch.outcome }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch source CSV and rebuild data
+        id: fetch
+        continue-on-error: true
+        env:
+          CSV_URL: ${{ secrets.CSV_URL }}
+        run: python scripts/build_data.py
+
+      # If the download fails (expired SAS token, network), still publish the
+      # last archived snapshot; the site shows a "not refreshed" badge and the
+      # job is marked failed at the end so GitHub emails the repo owner.
+      - name: Fall back to the last archived snapshot
+        if: steps.fetch.outcome == 'failure'
+        run: python scripts/build_data.py --rebuild
+
+      - name: Commit snapshot history
+        if: steps.fetch.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/data/history
+          if git diff --cached --quiet; then
+            echo "No change to commit."
+          else
+            git commit -m "data: refresh $(date -u +%F)"
+            git push
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  report:
+    needs: [build, deploy]
+    if: needs.build.outputs.fetch == 'failure'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "::error::The source CSV could not be downloaded. The site was published with the last archived snapshot. Check the CSV_URL secret (SAS token expiry)."
+          exit 1

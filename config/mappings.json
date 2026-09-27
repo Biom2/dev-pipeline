@@ -1,0 +1,129 @@
+{
+  "_readme": "Harmonisation tables applied by scripts/build_data.py. Keys are matched case-insensitively after trimming spaces, zero-width characters and punctuation variants. Edit this file to fix a new spelling that appears in the source CSV - no code change needed.",
+  "stage": {
+    "origination": "early",
+    "development": "advanced",
+    "under development": "advanced",
+    "bid": "bid",
+    "bidding": "bid",
+    "bid stage": "bid",
+    "financing": "committed",
+    "closing": "committed",
+    "financial close": "committed",
+    "financial closure": "committed"
+  },
+  "stage_label": {
+    "origination": "Origination",
+    "development": "Development",
+    "under development": "Development",
+    "bid": "Bid",
+    "bidding": "Bid",
+    "bid stage": "Bid",
+    "financing": "Financing",
+    "closing": "Closing",
+    "financial close": "Financial Close",
+    "financial closure": "Financial Close"
+  },
+  "stage_groups": {
+    "early": {
+      "label": "Early",
+      "long": "Early — origination",
+      "color": "#C6871B",
+      "order": 1
+    },
+    "advanced": {
+      "label": "Advanced",
+      "long": "Advanced — development",
+      "color": "#6B5CA5",
+      "order": 2
+    },
+    "bid": {
+      "label": "Bid",
+      "long": "Bid — tender process",
+      "color": "#00857F",
+      "order": 3
+    },
+    "committed": {
+      "label": "Committed",
+      "long": "Committed — financing & close",
+      "color": "#00A9CE",
+      "order": 4
+    },
+    "unmapped": {
+      "label": "Unmapped",
+      "long": "Stage not recognised",
+      "color": "#8496A2",
+      "order": 9
+    }
+  },
+  "substage": {
+    "early stage": "Early-stage pipeline",
+    "early-stage": "Early-stage pipeline",
+    "early stage pipeline": "Early-stage pipeline",
+    "early-stage pipeline": "Early-stage pipeline",
+    "early advanced": "Early-advanced pipeline",
+    "early advanced pipeline": "Early-advanced pipeline",
+    "secured-advanced pipeline": "Secured — advanced pipeline",
+    "secured - advanced pipeline": "Secured — advanced pipeline",
+    "secured advanced pipeline": "Secured — advanced pipeline",
+    "secured-committed": "Secured — committed",
+    "secured- committed": "Secured — committed",
+    "secured - committed": "Secured — committed",
+    "secured committed": "Secured — committed",
+    "n/a": null,
+    "na": null
+  },
+  "technology": {
+    "solar pv": "Solar PV",
+    "pv": "Solar PV",
+    "floating pv": "Floating PV",
+    "fpv": "Floating PV",
+    "wind": "Wind",
+    "onshore wind": "Wind",
+    "pv + bess": "Solar PV + BESS",
+    "solar pv + bess": "Solar PV + BESS",
+    "wind + bess": "Wind + BESS",
+    "solar pv + wind + bess": "Hybrid PV + Wind + BESS",
+    "solar pv + bess + onshore wind": "Hybrid PV + Wind + BESS"
+  },
+  "transaction_type": {
+    "greenfield": "Greenfield",
+    "bid": "Bid"
+  },
+  "country": {
+    "ksa": "Saudi Arabia",
+    "kingdom of saudi arabia": "Saudi Arabia",
+    "saudi arabia": "Saudi Arabia",
+    "uae": "UAE",
+    "united arab emirates": "UAE",
+    "kingdom of morocco": "Morocco",
+    "turkiye": "Türkiye",
+    "türkiye": "Türkiye",
+    "turkey": "Türkiye"
+  },
+  "region": {
+    "me": "MENA",
+    "mena": "MENA",
+    "cis": "CIS",
+    "apac": "APAC"
+  },
+  "placeholders": [
+    "only numbers no unit",
+    "only number no unit",
+    "note on the approved budget",
+    "epc contractor full name only",
+    "project technologies"
+  ],
+  "not_available": [
+    "",
+    "-",
+    "n/a",
+    "na",
+    "tbd",
+    "tbc",
+    "tba",
+    "to be determined",
+    "not yet finalized",
+    "not yet selected"
+  ]
+}

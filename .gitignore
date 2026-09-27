@@ -1,0 +1,8 @@
+# Rebuilt by scripts/build_data.py on every run (the archive in site/data/history is the source of truth)
+site/data/latest.json
+site/data/changes.json
+
+.DS_Store
+__pycache__/
+*.pyc
+.env
